@@ -1,0 +1,7 @@
+<div *ngIf="user_id && userData">
+  <app-user-create-edit [userId]="user_id"></app-user-create-edit>
+
+  <div class="actions">
+    <button mat-flat-button (click)="deleteUser()" class="button">Delete User</button>
+  </div>
+</div>

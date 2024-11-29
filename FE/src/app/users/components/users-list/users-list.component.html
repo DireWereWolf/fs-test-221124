@@ -1,0 +1,15 @@
+<div class="user-items">
+  <div *ngFor="let user of paginatedItems" class="user-item">
+    <div>nickname - {{user?.nickname || 'not set'}} ({{user?.email || 'no email'}})</div>
+    <a [routerLink]="['/', 'user', user.user_id]" class="link">
+      <span>{{user?.first_name}}</span>
+      <span>{{user?.surname}}</span>
+    </a>
+  </div>
+</div>
+
+<mat-paginator [length]="paginationSettings.total"
+               [pageSize]="paginationSettings.limit"
+               (page)="handlePageEvent($event)"
+              aria-label="Select page">
+</mat-paginator>

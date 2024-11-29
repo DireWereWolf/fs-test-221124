@@ -1,0 +1,30 @@
+<form [formGroup]="form" class="form">
+  <div class="row">
+    <mat-form-field appearance="outline">
+      <mat-label>Nickname</mat-label>
+      <input matInput formControlName="nickname" placeholder="Please enter a nickname*" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="Please enter an email*" />
+
+      <mat-error *ngIf="form.get('email')?.hasError('required')">
+        Email is required.
+      </mat-error>
+      <mat-error *ngIf="form.get('email')?.hasError('email')">
+        Please enter a valid email address.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>First name</mat-label>
+      <input matInput formControlName="first_name" placeholder="Please enter your first name" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Surname</mat-label>
+      <input matInput formControlName="surname" placeholder="Please enter your surname" />
+    </mat-form-field>
+
+    <button *ngIf="!userId" mat-flat-button (click)="onCreate()">Create</button>
+    <button *ngIf="userId" mat-flat-button (click)="onUpdate()">Save</button>
+  </div>
+</form>

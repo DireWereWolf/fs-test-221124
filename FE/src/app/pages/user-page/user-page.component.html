@@ -1,0 +1,11 @@
+<div *ngIf="currentViewMode === 'create'">
+  <div class="container">
+    <app-user-create-edit></app-user-create-edit>
+  </div>
+</div>
+
+<div *ngIf="currentViewMode === 'view'">
+  <div class="container">
+    <app-user-view [user_id]="userId"></app-user-view>
+  </div>
+</div>

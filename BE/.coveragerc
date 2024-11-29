@@ -1,0 +1,33 @@
+[paths]
+source =
+    src/
+
+[report]
+exclude_also =
+    def __repr__
+    if self.debug:
+    if settings.DEBUG
+    raise AssertionError
+    raise NotImplementedError
+
+[run]
+omit =
+    # omit everything in /tests
+    tests/*
+    */tests/*
+    # omit everything in /domain
+    */domain/*
+    # omit everything in /migrations
+    */migrations/*
+    # omit everything in __init__.py
+    */__init__.py
+    # omit everything in /schemas
+    */schemas/*
+    # omit everything in /schemas
+    */schemas/*
+    # omit files db.py, orm.py, config.py and main.py
+    */db.py
+    */orm.py
+    */config.py
+    */main.py
+

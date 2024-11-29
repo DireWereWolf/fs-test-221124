@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fstestpass
+      POSTGRES_DB: fs_test_221124
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  fs_test_221124_ng:
+    image: fs_test_221124_ng
+    container_name: fs_test_221124_ng
+    env_file:
+      - .env_ng
+    networks:
+      - app-network
+    ports:
+      - "9000:9000"
+
+  fs_test_221124_monolith:
+    image: fs_test_221124_monolith
+    container_name: fs_test_221124_monolith
+    env_file:
+      - .env_monolith
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+    ports:
+      - "9001:9001"
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
