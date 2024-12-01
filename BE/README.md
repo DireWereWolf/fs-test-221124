@@ -8,8 +8,14 @@ Upgrade - ```alembic upgrade head```
 
 ### Testing
 
-Local - ```pytest --cov-config=.coveragerc --cov=src```
-Local with report (html) - ```pytest --cov-config=.coveragerc --cov=src --cov-report html```
+Test flows separation: 
+```
+pytest -m unit
+pytest -m integration
+pytest -m e2e
+```
+All flows with report (html) - ```pytest --cov-report html```
+All flows with report in console ```pytest --cov-config=.coveragerc --cov=src```
 
 
 ### Ruff linter ([docs](https://docs.astral.sh/ruff/))

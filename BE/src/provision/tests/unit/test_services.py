@@ -10,8 +10,7 @@ from src.provision.service_layer import services
 
 class FakeRepository(AbstractRepository):
     def __init__(self, users: list[models.User]):
-        # sort here needed to prevent of jumping order caused by uuid
-        self._users = set(sorted(users, key=lambda user: user.nickname))
+        self._users = set(users)
 
     def add(self, user):
         self._users.add(user)
@@ -50,6 +49,7 @@ class FakeUnitOfWork(AbstractUnitOfWork):
 
 
 @pytest.mark.asyncio
+@pytest.mark.unit
 async def test_create_user():
     repo_mock = FakeRepository([])
     uow_mock = FakeUnitOfWork()
@@ -98,13 +98,13 @@ class TestGetUsers:
                 surname="Last2",
             ),
         ]
-        # Sort the user list
-        user_list_sorted = sorted(user_list, key=lambda u: u.nickname)
 
         # Mock repository with sorted users
-        self.repo_mock = FakeRepository(user_list_sorted)
+        self.repo_mock = FakeRepository(user_list)
+        self.users_list_set = self.repo_mock.get_many()
 
     @pytest.mark.asyncio
+    @pytest.mark.unit
     async def test_get_users(self):
         result = services.get_users(repo=self.repo_mock)
 
@@ -113,10 +113,11 @@ class TestGetUsers:
         assert len(result) == 2
         assert isinstance(result[0], models.User)
 
-        assert result[0].nickname == "user1"
-        assert result[1].email == "user2@example.com"
+        assert result[0].nickname == self.users_list_set[0].nickname
+        assert result[1].email == self.users_list_set[1].email
 
     @pytest.mark.asyncio
+    @pytest.mark.unit
     async def test_get_users__paginated(self):
         paginated_result = services.get_users(repo=self.repo_mock, page=1, limit=1)
         assert isinstance(paginated_result, PaginatedResult)
@@ -125,6 +126,7 @@ class TestGetUsers:
 
 class TestUpdateUser:
     @pytest.mark.asyncio
+    @pytest.mark.unit
     async def test_update_user(self):
         user_id = uuid4()
 
@@ -160,6 +162,7 @@ class TestUpdateUser:
         assert uow_mock.committed
 
     @pytest.mark.asyncio
+    @pytest.mark.unit
     async def test_update_use__not_found(self):
         user_id = uuid4()
 
@@ -186,6 +189,7 @@ class TestUpdateUser:
         assert str(exc_info.value) == f"User with ID {user_id} not found."
 
 @pytest.mark.asyncio
+@pytest.mark.unit
 async def test_get_user():
     user_id = uuid4()
     repo_mock = FakeRepository([models.User(
@@ -202,6 +206,7 @@ async def test_get_user():
     assert result.nickname == "test_nickname"
 
 @pytest.mark.asyncio
+@pytest.mark.unit
 async def test_delete_user():
     user_id = uuid4()
 

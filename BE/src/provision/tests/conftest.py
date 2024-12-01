@@ -1,4 +1,5 @@
 # pylint: disable=redefined-outer-name
+import sys
 import time
 from pathlib import Path
 
@@ -8,6 +9,8 @@ import pytest
 from sqlalchemy.exc import OperationalError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, clear_mappers
+
+print(sys.path)
 
 from src.provision.adapters.orm import metadata, start_mappers
 from src.provision import config

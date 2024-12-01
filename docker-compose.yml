@@ -37,10 +37,33 @@ services:
     ports:
       - "9001:9001"
 
+  monolith_tests:
+    image: fs_test_221124_monolith  # Reuse the monolith image for testing
+    container_name: monolith_tests
+    env_file:
+      - .env_monolith
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+    volumes:
+      - coverage_report:/app/coverage  # Persist coverage report
+    entrypoint: sh
+    command: >
+      -c "
+      pytest --maxfail=10 -p no:warnings --cov=/app/src --cov-report=html:/app/coverage &&
+      python -m http.server --directory /app/coverage 10001
+      "
+    ports:
+      - "10001:10001"  # Serve coverage report via HTTP
+
+
 networks:
   app-network:
     driver: bridge
 
 volumes:
   postgres_data:
+    driver: local
+  coverage_report:
     driver: local

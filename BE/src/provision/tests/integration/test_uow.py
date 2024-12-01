@@ -21,6 +21,7 @@ def get_user(session, user_id):
     return row[0] if row else None
 
 @pytest.mark.asyncio
+@pytest.mark.integration
 async def test_uow_can_create_user(session_factory):
     session = session_factory()
 

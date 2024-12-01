@@ -9,3 +9,4 @@ It will prepare images for compose
 When done:
 - FE available on `localhost:9000`
 - BE available on `localhost:9001` , BE docs here - `localhost:9001/docs`
+- Tests coverage report on `localhost:10001`
