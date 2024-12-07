@@ -8,15 +8,15 @@ build: build_postgres build_ng build_monolith
 
 # Build PostgreSQL image from Dockerfile
 build_postgres:
-	docker build -t $(POSTGRES_IMAGE) .
+	docker build -t $(POSTGRES_IMAGE) . --no-cache
 
 # Build the Angular application image
 build_ng:
-	docker build -t $(NG_IMAGE) ./FE
+	docker build -t $(NG_IMAGE) ./FE --no-cache
 
 # Build the Monolith application image
 build_monolith:
-	docker build -t $(MONOLITH_IMAGE) ./BE
+	docker build -t $(MONOLITH_IMAGE) ./BE --no-cache
 
 # Start all services with Docker Compose
 up:
