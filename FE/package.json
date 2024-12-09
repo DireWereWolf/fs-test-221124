@@ -29,9 +29,8 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "typescript": "^5.2.2",
     "@angular-devkit/build-angular": "^19.0.4",
-    "@angular/cli": "^19.0.2",
+    "@angular/cli": "^19.0.4",
     "@angular/compiler-cli": "^19.0.0",
     "@types/jasmine": "~5.1.0",
     "crossenv": "^0.0.2-security",
@@ -40,6 +39,7 @@
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0"
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "^5.2.2"
   }
 }

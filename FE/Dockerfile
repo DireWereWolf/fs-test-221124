@@ -4,7 +4,7 @@ FROM node:20 AS builder
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json for dependency installation
+# Copy only the necessary files to install dependencies
 COPY package*.json ./
 
 # Install dependencies (with --legacy-peer-deps for compatibility issues)
@@ -17,28 +17,28 @@ COPY . .
 RUN npm run build:prod
 
 # Step 2: Serve Angular application
-FROM node:20-slim
+FROM node:20-slim AS runtime
 
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json for production dependencies
+# Copy only the necessary files to install dependencies
 COPY package*.json ./
 
-# Install production dependencies only (including express)
-RUN npm install --legacy-peer-deps --only=production
+# Install all dependencies (to ensure compatibility)
+RUN npm install --legacy-peer-deps
 
-# Debug: Check if express is installed correctly
-RUN ls -l node_modules/express
+# Prune development dependencies to reduce image size
+RUN npm prune --production
 
 # Copy the built Angular app from the builder stage
-COPY --from=builder /app/dist/fe/browser /app/dist/fe/browser
+COPY --from=builder /app/dist/fe/browser ./dist/fe/browser
 
-# Copy the server.js file
+# Copy the server.js file for serving the application
 COPY server.js ./
 
 # Expose the application's port
 EXPOSE 9000
 
-# Run the application
+# Start the server
 CMD ["node", "server.js"]
